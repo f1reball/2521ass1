@@ -5,13 +5,12 @@
 
 char * normaliseWord(char *str){
 
-//generates the length of the string
+//intialise vars and generate the length of the input string
     int length = strlen(str);
     int i = 0;
-    printf("%d\n", length);
+    int shift_counter = 0;
 
 //finds spaces before the word
-    int shift_counter = 0;
     while(str[i] == ' '){
         shift_counter++;
         i++;
