@@ -79,11 +79,10 @@ while(fscanf(fp, "%s", name) != EOF){
 
         //normaliseWord
 
-        //#########################################T = createNewNode();
-        struct InvertedIndexNode *curr = T;
+        //#########################################
 
-        if(curr == NULL){
-            printf("y\n");
+        if(T == NULL){
+            T = createNewNode(word);
         }
 
         /*
@@ -111,7 +110,7 @@ fclose(fp);
 // 5. ROTATE IF NEEDED
 // 6. REPEAT
 
-
+printf("%s\n", T->word);
 
     return(0);
 }

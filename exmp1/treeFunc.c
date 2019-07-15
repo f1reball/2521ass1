@@ -11,6 +11,19 @@ InvertedIndexBST createNewTree(void){
     return NULL;
 }
 
-InvertedIndexBST createNewNode(void){
-    return malloc(sizeof(InvertedIndexBST));
+InvertedIndexBST createNewNode(char *word){
+    InvertedIndexBST node = malloc(sizeof(*node));
+    node->word = word;
+    return node;
 }
+
+//TODO Functions
+/*
+    IS IN TREE
+    HEIGHT OF TREE
+    DELETE NODE
+    ROTATE RIGHT
+    ROTATE LEFT
+    DOUBLE ROTATE LEFT
+    DOUBLE ROTATE RIGHT
+*/
