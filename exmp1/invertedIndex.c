@@ -49,6 +49,33 @@ InvertedIndexBST generateInvertedIndex(char *collectionFilename){
 //we should make the BST self balancing to allow for faster recollection
 
 
+InvertedIndexBST L = createNewTree();
+
+
+//FIX RECURSIVE Functions
+InvertedIndexBST addnew (InvertedIndexBST L, char *data){
+    if(L == NULL){
+        L = createNewNode(data);
+        return L;
+    } else {
+        printf("xx");
+        return addnew(L->right, data);
+    }
+}
+
+
+
+FILE * fp;
+fp = fopen("nasa.txt", "r");
+char word[100];
+while(fscanf(fp, "%s", word) != EOF){
+
+    addnew(L, normaliseWord(word));
+
+}
+return L;
+
+
 //for this, we need to include a couple of extra functions for a cool af AVL tree WEOWWW
 
 
@@ -61,7 +88,7 @@ InvertedIndexBST generateInvertedIndex(char *collectionFilename){
 //we need to open the collection file to see what we need to open
 
 // WE NEED A FUNCTION BLOCK FOR TREE COMMANDS
-
+/*
 FILE * fp;
 fp = fopen(collectionFilename, "r");
 char name[100];
@@ -78,7 +105,7 @@ while(fscanf(fp, "%s", name) != EOF){
         //normaliseWord
 
         //#########################################
-        /*
+
         if(T == NULL){
             T = createNewNode(word);
             printf("%s\n", T->word);
@@ -103,10 +130,12 @@ while(fscanf(fp, "%s", name) != EOF){
 
         printf("%s\n", normaliseWord(word));
         */
+        /*
     }
 
 }
 fclose(fp);
+*/
 
 // EACH TIME WE FOLLOW THIS LOOP STRUCTURE:
 
@@ -117,10 +146,13 @@ fclose(fp);
 // 5. ROTATE IF NEEDED
 // 6. REPEAT
 
-    return(0);
+    //return(0);
 }
 
 void printInvertedIndex(InvertedIndexBST tree){
+    printf("TEST\n");
+    printf("%s\n", tree->word);
+
 }
 
 TfIdfList calculateTfIdf(InvertedIndexBST tree, char *searchWord , int D){
