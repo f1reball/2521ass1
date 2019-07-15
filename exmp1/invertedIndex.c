@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "treeFunc.h"
-
+#include <stdlib.h>
 
 char * normaliseWord(char *str){
 
@@ -63,7 +63,7 @@ InvertedIndexBST generateInvertedIndex(char *collectionFilename){
 // WE NEED A FUNCTION BLOCK FOR TREE COMMANDS
 
 
-InvertedIndexBST T = NULL;
+InvertedIndexBST T = createNewTree();
 
 FILE * fp;
 fp = fopen(collectionFilename, "r");
@@ -78,14 +78,25 @@ while(fscanf(fp, "%s", name) != EOF){
     while(fscanf(fp, "%s", word) != EOF){
 
         //normaliseWord
+
+        //#########################################T = createNewNode();
+        struct InvertedIndexNode *curr = T;
+
+        if(curr == NULL){
+            printf("y\n");
+        }
+
+        /*
+        T->word = "HELLO";
         test(T);
         if (T == NULL){
             printf("YES\n");
-
+        } else {
+            printf("%s\n", T->word);
         }
 
         printf("%s\n", normaliseWord(word));
-
+        */
     }
 
 }
