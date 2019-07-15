@@ -5,29 +5,19 @@
 
 char * normaliseWord(char *str){
 
-    //first get length of the string
-    //then we filter the string by removing each letter
-    //we want it fast so if we can scan the string once its then gonna be better
-
-
 //generates the length of the string
     int length = strlen(str);
     int i = 0;
     printf("%d\n", length);
 
-//we need to strip the string of trailing spaces either side
-//we also need to have the same memory allocation
-//lucky for us something called memmove exists :D (YAY)
-
-//we just need to find the spaces before the word
-
+//finds spaces before the word
     int shift_counter = 0;
     while(str[i] == ' '){
         shift_counter++;
         i++;
     }
 
-    //moves string to the front of the memory address
+//moves string to the front of the memory address
     memmove(str, str+shift_counter, length-shift_counter);
     str[length-shift_counter] = 0;
 
@@ -35,12 +25,20 @@ char * normaliseWord(char *str){
     i = 0;
     while(str[i]){
         str[i] = tolower(str[i]);
+        //forces the string to end the trailing spaces
+        if(str[i+1] == ' '){
+            str[i+1] = '\0';
+        }
         i++;
     }
 
+//finally we strip the last letter if its not allowed
+    length = strlen(str) -1;
+    if(str[length] == '.' || str[length] == ',' || str[length] == ';' ||str[length] == '?'){
+        str[length] = '\0';
+    }
 
-
-
+//returns edited string :D
     return(str);
 }
 
