@@ -41,7 +41,55 @@ char * normaliseWord(char *str){
     return(str);
 }
 
+
+
 InvertedIndexBST generateInvertedIndex(char *collectionFilename){
+//we should make the BST self balancing to allow for faster recollection
+
+
+//for this, we need to include a couple of extra functions for a cool af AVL tree WEOWWW
+
+
+//todo:
+// AVL INSERT
+// AVL DELETE
+// AVL CHECK HEIGHT
+// AVL PIVOT NODE DEFINITION
+
+//we need to open the collection file to see what we need to open
+
+FILE * fp;
+fp = fopen(collectionFilename, "r");
+char name[100];
+while(fscanf(fp, "%s", name) != EOF){
+
+    printf("\n****%s****\n", name);
+    //inside the double loop we now read each word and print it output
+    FILE * fp;
+    fp = fopen(name, "r");
+    char word[100];
+    while(fscanf(fp, "%s", word) != EOF){
+
+        //normaliseWord
+
+        printf("%s\n", normaliseWord(word));
+
+    }
+
+}
+fclose(fp);
+
+// EACH TIME WE FOLLOW THIS LOOP STRUCTURE:
+
+// 1. FIND WHAT TO ADD AND SCAN IT IN
+// 2. PUT IT THROUGH THE FILTER
+// 3. ADD TO THE AVL TREE
+// 4. CHECK IF CONDITIONS ARE BROKEN
+// 5. ROTATE IF NEEDED
+// 6. REPEAT
+
+
+
     return(0);
 }
 
