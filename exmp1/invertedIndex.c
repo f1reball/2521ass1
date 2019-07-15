@@ -62,9 +62,6 @@ InvertedIndexBST generateInvertedIndex(char *collectionFilename){
 
 // WE NEED A FUNCTION BLOCK FOR TREE COMMANDS
 
-
-InvertedIndexBST T = createNewTree();
-
 FILE * fp;
 fp = fopen(collectionFilename, "r");
 char name[100];
@@ -77,14 +74,24 @@ while(fscanf(fp, "%s", name) != EOF){
     char word[100];
     while(fscanf(fp, "%s", word) != EOF){
 
+        printf("%s\n", word);
         //normaliseWord
 
         //#########################################
-
+        /*
         if(T == NULL){
             T = createNewNode(word);
+            printf("%s\n", T->word);
+            head = T;
+        } else {
+            T = T->right;
+            T = createNewNode(word);
+            printf("%s\n", T->word);
         }
 
+
+        printf("%s\n", head->word);
+        */
         /*
         T->word = "HELLO";
         test(T);
@@ -109,8 +116,6 @@ fclose(fp);
 // 4. CHECK IF CONDITIONS ARE BROKEN
 // 5. ROTATE IF NEEDED
 // 6. REPEAT
-
-printf("%s\n", T->word);
 
     return(0);
 }
