@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
+#include "treeFunc.h"
+
 
 char * normaliseWord(char *str){
 
@@ -58,6 +60,11 @@ InvertedIndexBST generateInvertedIndex(char *collectionFilename){
 
 //we need to open the collection file to see what we need to open
 
+// WE NEED A FUNCTION BLOCK FOR TREE COMMANDS
+
+
+InvertedIndexBST T = NULL;
+
 FILE * fp;
 fp = fopen(collectionFilename, "r");
 char name[100];
@@ -71,6 +78,11 @@ while(fscanf(fp, "%s", name) != EOF){
     while(fscanf(fp, "%s", word) != EOF){
 
         //normaliseWord
+        test(T);
+        if (T == NULL){
+            printf("YES\n");
+
+        }
 
         printf("%s\n", normaliseWord(word));
 
