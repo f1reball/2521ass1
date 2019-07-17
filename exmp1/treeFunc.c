@@ -58,13 +58,46 @@ int alphabeticalOrder(char *str1, char *str2){
 }
 
 
+//recursive bubble sort
+FileList swap(FileList a, FileList b){
+    a->next = b->next;
+    b->next = a;
+    return b;
+}
+
+FileList ordering(FileList list){
+    if(list == NULL){
+        return list;
+    }
+    if(list->next != NULL && alphabeticalOrder(list->filename, list->next->filename) == 1){
+        list = swap(list, list->next);
+    }
+    list->next = ordering(list->next);
+
+    if(list->next != NULL && alphabeticalOrder(list->filename, list->next->filename) == 1){
+        list = swap(list, list->next);
+        list->next = ordering(list->next);
+    }
+    return list;
+
+}
+
+
 FileList addnewfilelist(FileList list, char *filename){
 
     if(list == NULL){
         return createNewFileNode(filename);
-    } else {
-        list->next = addnewfilelist(list->next, filename);
     }
+
+    if(strcmp(list->filename, filename) == 0){
+        return list;
+    }
+
+    list->next = addnewfilelist(list->next, filename);
+
+    //ordering the boi
+    list = ordering(list);
+
     return list;
 }
 
@@ -79,9 +112,7 @@ InvertedIndexBST addnew(InvertedIndexBST tree, char *data, char* filename){
         int var = alphabeticalOrder(tree->word, data);
 
         if (var == 0){
-
             tree->fileList = addnewfilelist(tree->fileList, filename);
-
         } else if(var == -1){
             tree->right = addnew(tree->right, data, filename);
         } else {
