@@ -12,18 +12,31 @@ InvertedIndexBST createNewTree(void){
     return NULL;
 }
 
-InvertedIndexBST createNewNode(char *word){
+
+FileList createNewFileNode(char *filename){
+    FileList node = malloc(sizeof(*node));
+
+    char *name = malloc(sizeof(char)*100);
+    strcpy(name, filename);
+
+    node->filename = name;
+    //node->tf = NULL;
+    node->next = NULL;
+    return node;
+}
+
+
+InvertedIndexBST createNewNode(char *word, char *filename){
     InvertedIndexBST node = malloc(sizeof(*node));
 
     char *letter = malloc(sizeof(char)*100);
     strcpy(letter, word);
 
-
     //printf("%s\n", letter);
     node->word = letter;
     node->right = NULL;
     node->left = NULL;
-    node->fileList = NULL;
+    node->fileList = createNewFileNode(filename);
     return node;
 }
 
@@ -45,24 +58,47 @@ int alphabeticalOrder(char *str1, char *str2){
 }
 
 
+FileList addnewfilelist(FileList list, char *filename){
+
+    if(list == NULL){
+        return createNewFileNode(filename);
+    } else {
+        list->next = addnewfilelist(list->next, filename);
+    }
+    return list;
+}
+
 
 //fucntion derived off the lab 3 example
-InvertedIndexBST addnew(InvertedIndexBST tree, char *data){
+InvertedIndexBST addnew(InvertedIndexBST tree, char *data, char* filename){
 
     if(tree == NULL){
-        return createNewNode(data);
+        return createNewNode(data, filename);
+
     } else {
         int var = alphabeticalOrder(tree->word, data);
 
         if (var == 0){
 
+            tree->fileList = addnewfilelist(tree->fileList, filename);
+
         } else if(var == -1){
-            tree->right = addnew(tree->right, data);
+            tree->right = addnew(tree->right, data, filename);
         } else {
-            tree->left = addnew(tree->left, data);
+            tree->left = addnew(tree->left, data, filename);
         }
     }
     return tree;
+}
+
+//function below used from the lab 3 examples
+void printlist(FileList link){
+    if(link == NULL){
+        printf("\n");
+        return;
+    }
+    printf("%s ", link->filename);
+    printlist(link->next);
 }
 
 //function below used from the lab 3 examples
@@ -70,5 +106,8 @@ void showNode(InvertedIndexBST tree){
     if(tree == NULL){
         return;
     }
-    printf("%s\n", tree->word);
+    printf("%s ", tree->word);
+
+    //recursive print of the filelist
+
 }

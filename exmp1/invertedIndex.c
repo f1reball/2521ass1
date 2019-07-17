@@ -39,14 +39,15 @@ InvertedIndexBST L = createNewTree();
 
 FILE * ps;
 ps = fopen("collection.txt", "r");
-char word[(sizeof(char)*100)];
-while(fscanf(ps, "%s", word) != EOF){
+char filename[(sizeof(char)*100)];
+while(fscanf(ps, "%s", filename) != EOF){
 
         FILE * fp;
-        fp = fopen(word, "r");
+        char word[(sizeof(char)*100)];
+        fp = fopen(filename, "r");
         while(fscanf(fp, "%s", word) != EOF){
 
-            L = addnew(L, normaliseWord(word));
+            L = addnew(L, normaliseWord(word), filename);
 
         }
         fclose(fp);
@@ -62,6 +63,7 @@ void printInvertedIndex(InvertedIndexBST tree){
     } else {
         printInvertedIndex(tree->left);
         showNode(tree);
+        printlist(tree->fileList);
         printInvertedIndex(tree->right);
     }
 }
