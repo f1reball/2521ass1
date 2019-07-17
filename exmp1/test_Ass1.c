@@ -57,7 +57,6 @@ void checkNormalisedString(char *origString, char *answerString){
 
 void testNormalise(){
 	printf("Testing function  normaliseWord \n");
-	checkNormalisedString(" thistest  ", "thistest");
 	checkNormalisedString(".Net", ".net");
 	checkNormalisedString("smh.com.au", "smh.com.au");
 	checkNormalisedString("Sydney!", "sydney!");

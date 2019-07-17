@@ -5,12 +5,13 @@
 #include <string.h>
 
 void test(InvertedIndexBST tree){
-    printf("no\n");
 }
 
 InvertedIndexBST createNewTree(void){
     return NULL;
 }
+
+
 
 
 FileList createNewFileNode(char *filename){
@@ -20,7 +21,8 @@ FileList createNewFileNode(char *filename){
     strcpy(name, filename);
 
     node->filename = name;
-    //node->tf = NULL;
+    node->tf = 1;
+    //printf("%lf\n", node->tf);
     node->next = NULL;
     return node;
 }
@@ -90,6 +92,7 @@ FileList addnewfilelist(FileList list, char *filename){
     }
 
     if(strcmp(list->filename, filename) == 0){
+        list->tf++;
         return list;
     }
 
@@ -123,17 +126,17 @@ InvertedIndexBST addnew(InvertedIndexBST tree, char *data, char* filename){
 }
 
 //function below used from the lab 3 examples
-void printlist(FileList link){
+void printlist(FileList link, FILE *fp){
     if(link == NULL){
         printf("\n");
         return;
     }
     printf("%s ", link->filename);
-    printlist(link->next);
+    printlist(link->next, fp);
 }
 
 //function below used from the lab 3 examples
-void showNode(InvertedIndexBST tree){
+void showNode(InvertedIndexBST tree, FILE *fp){
     if(tree == NULL){
         return;
     }
@@ -141,4 +144,123 @@ void showNode(InvertedIndexBST tree){
 
     //recursive print of the filelist
 
+}
+
+
+//count all nodes
+
+InvertedIndexBST nodefind(InvertedIndexBST tree, char *word){
+    if(tree == NULL || strcmp(tree->word, word) == 0){
+        return tree;
+    } else {
+        if(alphabeticalOrder(tree->word, word) == -1){
+            return nodefind(tree->right, word);
+        } else {
+            return nodefind(tree->left, word);
+        }
+    }
+}
+
+
+int wordcount(InvertedIndexBST tree, char *document){
+    if(tree == NULL){
+        return 0;
+    } else {
+        return wordcount(tree->left, document) + wordcount(tree->right, document);
+    }
+    return 0;
+}
+
+TfIdfList addnewtfNode(char* filename, double tf){
+    TfIdfList node = malloc(sizeof(*node));
+
+    char *name = malloc(sizeof(char)*100);
+    strcpy(name, filename);
+
+    node->filename = name;
+    node->tfidf_sum = tf;
+    node->next = NULL;
+    return node;
+}
+
+
+TfIdfList addtolist(TfIdfList list, char *filename, double tf){
+    if(list == NULL){
+        return addnewtfNode(filename, tf);
+    }
+    list->next = addtolist(list->next, filename, tf);
+
+    return list;
+}
+
+
+
+double scanforallwords(InvertedIndexBST tree, char * filename){
+    double count = 0;
+    if(tree == NULL){
+        return count;
+    } else {
+        //scan section
+        FileList ref = tree->fileList;
+
+        while(ref != NULL){
+            if(strcmp(ref->filename, filename) == 0){
+                count = count + ref->tf;
+            }
+            ref=ref->next;
+        }
+
+        count += scanforallwords(tree->left, filename);
+        count += scanforallwords(tree->right, filename);
+        return count;
+    }
+}
+
+
+TfIdfList swaptf(TfIdfList a, TfIdfList b){
+    a->next = b->next;
+    b->next = a;
+    return b;
+}
+
+TfIdfList orderingtf(TfIdfList list){
+    if(list == NULL){
+        return list;
+    }
+    if(list->next != NULL && list->tfidf_sum < list->next->tfidf_sum){
+        list = swaptf(list, list->next);
+    }
+    list->next = orderingtf(list->next);
+
+    if(list->next != NULL && list->tfidf_sum < list->next->tfidf_sum){
+        list = swaptf(list, list->next);
+        list->next = orderingtf(list->next);
+    }
+    return list;
+
+}
+
+
+int findinlist(TfIdfList list, char *word){
+    if(list == NULL){
+        return 0;
+    } else {
+        if(strcmp(list->filename, word) == 0){
+            return 1;
+        }
+        return findinlist(list->next, word);
+    }
+}
+
+
+TfIdfList editlist(TfIdfList list, char * filename, double value){
+    if(list == NULL){
+        return list;
+    }
+    if(strcmp(list->filename, filename) == 0){
+        list->tfidf_sum = list->tfidf_sum + value;
+    }
+    list->next = editlist(list->next, filename, value);
+
+    return list;
 }
